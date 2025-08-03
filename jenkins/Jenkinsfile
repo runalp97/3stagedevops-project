@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+
+    environment {
+        IMAGE_NAME = 'trainee-app'
+    }
+
+    stages {
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t $IMAGE_NAME:latest .'
+            }
+        }
+
+        stage('Deploy to Dev') {
+            steps {
+                sh 'kubectl apply -f k8s/dev/'
+            }
+        }
+
+        stage('Health Check') {
+            steps {
+                sh 'curl -f http://localhost:30001/health'
+            }
+        }
+
+        stage('Deploy to Test') {
+            steps {
+                sh 'kubectl apply -f k8s/test/'
+            }
+        }
+
+        stage('Deploy to Prod') {
+            steps {
+                sh 'kubectl apply -f k8s/prod/'
+            }
+        }
+    }
+}

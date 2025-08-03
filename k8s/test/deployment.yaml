@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trainee-test
+  namespace: test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: trainee
+  template:
+    metadata:
+      labels:
+        app: trainee
+    spec:
+      containers:
+        - name: trainee
+          image: trainee-app:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000
+          env:
+            - name: MESSAGE
+              value: "Hello from Test!"

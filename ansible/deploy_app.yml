@@ -1,0 +1,8 @@
+- name: Deploy trainee app to K8s
+  hosts: localhost
+  tasks:
+    - name: Apply deployment files
+      shell: kubectl apply -f {{ item }}
+      with_items:
+        - ../k8s/dev/deployment.yaml
+        - ../k8s/dev/service.yaml

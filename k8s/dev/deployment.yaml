@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trainee-dev
+  namespace: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: trainee
+  template:
+    metadata:
+      labels:
+        app: trainee
+    spec:
+      containers:
+        - name: trainee
+          image: trainee-app:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000
